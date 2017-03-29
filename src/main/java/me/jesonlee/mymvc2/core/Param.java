@@ -14,13 +14,18 @@ public class Param {
 
     //
     public void setValue(Object value) {
-        for (String s : (String[]) value) {
+        Object[] values = (Object[]) value;
+        this.value = new Object[values.length];
+        for (Object o : values) {
             if (clazz == int.class) {
-                this.value[0] = Integer.parseInt(s);
+                this.value[0] = Integer.parseInt((String) o);
+            } else {
+                this.value[0] = o;
             }
         }
     }
 
+    /*如果参数只对应一个值则返回这个值*/
     public Object getValue() {
         if (value == null || value.length > 1) {
             return value;

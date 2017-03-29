@@ -6,6 +6,8 @@ import me.jesonlee.mymvc2.util.MethodParameterUtil;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,10 +19,11 @@ public class RequestHandler {
 
     private Method method;
 
-    private Object[] args;
-
-    //参数名-参数映射
+    //方法中的参数名-参数映射
     private Map<String, Param> nameParamMap;
+
+    //传给方法的model
+    private Model model;
 
     private void setNameParamMap(Map<String, Param> nameParamMap) {
         this.nameParamMap = nameParamMap;
@@ -44,25 +47,43 @@ public class RequestHandler {
     }
 
     public ModelAndView handle(Request request) {
+        ModelAndView mv = null;
         try {
-            String name = (String) method.invoke(origin, args);
+            mv = new ModelAndView();
+            Object[] args = bind(request);
+            String name = (String) (method.invoke(origin, args));
+            mv.setViewName(name);
+            mv.setModel(model);
         } catch (IllegalAccessException | InvocationTargetException e) {
             return null;//生成视图失败
         }
         //TODO:返回ModelAndView
-        return null;
+        return mv;
     }
 
-    private void bind(Request request) {
+    private Object[] bind(Request request) {
         //TODO:将请求参数绑定到方法参数
         Map<String, Object> paramValueMap = request.getParamValueMap();
+        List<Object> list = new LinkedList<>();
         for (Map.Entry<String, Param> entry : nameParamMap.entrySet()) {
             //TODO:封装这样的操作
             String name = entry.getKey();//参数名
-            Param param = entry.getValue();
+            Param param = entry.getValue();//对应的参数
 
-            param.setValue(paramValueMap.get(name));
+            //如果方法参数中有名为model并且类型为Model的参数，就把Model类的实例放到对应的位置上
+            if ("model".equals(name) && param.clazz == Model.class) {
+                model = new Model();
+                param.setValue(new Model[]{model});
+
+            } else {
+
+                //将参数的值设为请求参数中对应参数的值
+                param.setValue(paramValueMap.get(name));
+            }
+            list.add(param.getValue());
         }
+
+        return list.toArray();
     }
 
     public Object getOrigin() {
