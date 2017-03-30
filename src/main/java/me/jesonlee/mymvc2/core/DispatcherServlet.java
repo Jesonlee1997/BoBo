@@ -1,5 +1,6 @@
 package me.jesonlee.mymvc2.core;
 
+import me.jesonlee.mymvc2.http.HttpRequestResolver;
 import me.jesonlee.mymvc2.http.Request;
 
 import javax.servlet.ServletException;
@@ -31,10 +32,6 @@ public class DispatcherServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //解析请求
         Request request = HttpRequestResolver.resolve(req);
-        System.out.println(request);
-
-        //对url进行处理
-        //url = UrlUtil.fixUrl(url); TODO:处理url
 
         //执行url对应的method方法
         RequestHandler requestHandler = mappingManager.getHandler(request);

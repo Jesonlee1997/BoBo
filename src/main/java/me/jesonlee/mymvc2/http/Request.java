@@ -19,16 +19,12 @@ public class Request {
         return paramValueMap;
     }
 
-    public void setParamValueMap(Map<String, Object> paramValueMap) {
-        this.paramValueMap = paramValueMap;
-    }
-
     public String getUrl() {
         return url;
     }
 
-    public void setUrl(String url) {
-        this.url = url.toLowerCase();
+    public void addParam(String name, Object value) {
+        paramValueMap.put(name, value);
     }
 
     @Override

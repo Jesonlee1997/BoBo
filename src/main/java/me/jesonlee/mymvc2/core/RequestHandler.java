@@ -1,6 +1,7 @@
 package me.jesonlee.mymvc2.core;
 
 import me.jesonlee.mymvc2.exception.BuildRequestHandlerFailedException;
+import me.jesonlee.mymvc2.exception.ParamTypeParseException;
 import me.jesonlee.mymvc2.http.Request;
 import me.jesonlee.mymvc2.util.MethodParameterUtil;
 
@@ -35,7 +36,6 @@ public class RequestHandler {
     public static RequestHandler buildRequestHandler(Object origin, Method method)
             throws BuildRequestHandlerFailedException  {
         try {
-            //TODO:解析方法的参数
             RequestHandler handler = new RequestHandler();
             handler.setMethod(method);
             handler.setOrigin(origin);
@@ -47,22 +47,22 @@ public class RequestHandler {
     }
 
     public ModelAndView handle(Request request) {
-        ModelAndView mv = null;
+        ModelAndView mv;
         try {
             mv = new ModelAndView();
             Object[] args = bind(request);
             String name = (String) (method.invoke(origin, args));
             mv.setViewName(name);
             mv.setModel(model);
-        } catch (IllegalAccessException | InvocationTargetException e) {
+        } catch (IllegalAccessException | InvocationTargetException | ParamTypeParseException e) {
+            //TODO：使用log记录错误信息
             return null;//生成视图失败
         }
-        //TODO:返回ModelAndView
         return mv;
     }
 
-    private Object[] bind(Request request) {
-        //TODO:将请求参数绑定到方法参数
+    //将请求参数绑定到方法参数
+    private Object[] bind(Request request) throws BuildRequestHandlerFailedException {
         Map<String, Object> paramValueMap = request.getParamValueMap();
         List<Object> list = new LinkedList<>();
         for (Map.Entry<String, Param> entry : nameParamMap.entrySet()) {
@@ -70,15 +70,19 @@ public class RequestHandler {
             String name = entry.getKey();//参数名
             Param param = entry.getValue();//对应的参数
 
-            //如果方法参数中有名为model并且类型为Model的参数，就把Model类的实例放到对应的位置上
-            if ("model".equals(name) && param.clazz == Model.class) {
-                model = new Model();
-                param.setValue(new Model[]{model});
+            try {
+                //如果方法参数中有名为model并且类型为Model的参数，就把Model类的实例放到对应的位置上
+                if ("model".equals(name) && param.getClazz() == Model.class) {
+                    model = new Model();
+                    param.setValue(new Model[]{model});
+                } else {
 
-            } else {
-
-                //将参数的值设为请求参数中对应参数的值
-                param.setValue(paramValueMap.get(name));
+                    //将参数的值设为请求参数中对应参数的值
+                    param.setValue(paramValueMap.get(name));
+                }
+            } catch (Exception e) {
+                //参数类型与方法参数类型不匹配，出现解析错误;
+                throw new ParamTypeParseException("参数解析发生错误", e);
             }
             list.add(param.getValue());
         }
@@ -86,19 +90,12 @@ public class RequestHandler {
         return list.toArray();
     }
 
-    public Object getOrigin() {
-        return origin;
-    }
 
-    public void setOrigin(Object origin) {
+    private void setOrigin(Object origin) {
         this.origin = origin;
     }
 
-    public Method getMethod() {
-        return method;
-    }
-
-    public void setMethod(Method method) {
+    private void setMethod(Method method) {
         this.method = method;
     }
 

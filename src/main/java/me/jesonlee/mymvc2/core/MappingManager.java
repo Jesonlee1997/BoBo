@@ -79,7 +79,8 @@ public class MappingManager {
 
     //获得请求中对应url的处理器
     RequestHandler getHandler(Request request) {
-        String url = request.getUrl();
-        return urlHandlerMap.get(url);
+        //TODO:match URL
+
+        return urlHandlerMap.getHandler(request);
     }
 }
