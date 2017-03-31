@@ -1,5 +1,7 @@
 package me.jesonlee.mymvc2.core;
 
+import java.util.Map;
+
 /**
  * Created by Administrator on 2017/3/23 0023.
  */
@@ -21,5 +23,9 @@ public class ModelAndView {
 
     public void setModel(Model model) {
         this.model = model;
+    }
+
+    public Map<String, Object> getModelMap() {
+        return model.getMap();
     }
 }

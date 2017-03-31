@@ -12,7 +12,7 @@ public class Request {
 
     public Request(Map<String, Object> paramValueMap, String url) {
         this.paramValueMap = paramValueMap;
-        this.url = url.toLowerCase();
+        this.url = url;
     }
 
     public Map<String, Object> getParamValueMap() {

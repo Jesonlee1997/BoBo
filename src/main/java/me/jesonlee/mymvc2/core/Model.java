@@ -16,4 +16,8 @@ public class Model {
     public void addAttribute(String name, Object value) {
         map.put(name, value);
     }
+
+    public Map<String, Object> getMap() {
+        return map;
+    }
 }

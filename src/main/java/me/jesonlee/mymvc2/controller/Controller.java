@@ -17,7 +17,7 @@ public class Controller {
     public String jeson(Model model, int id, String name) {
         model.addAttribute("id", id);
         model.addAttribute("name", name);
-        return "jeson";
+        return "jeson.jsp";
     }
 
     public String java(Model model, int age) {

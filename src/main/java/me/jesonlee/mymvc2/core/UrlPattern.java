@@ -25,7 +25,7 @@ public class UrlPattern {
             urlParamNames.add(name);
             localUrl = localUrl.replace("(" + name + ")", "(?<" + name + ">\\w+)");
         }
-        this.pattern = Pattern.compile("^" + localUrl + "$");
+        this.pattern = Pattern.compile("^" + localUrl + "$", Pattern.CASE_INSENSITIVE);
     }
 
     public boolean match(Request request) {

@@ -39,6 +39,7 @@ public class DispatcherServlet extends HttpServlet {
         //调用处理器的handle方法处理请求
         if (requestHandler == null) {
             //TODO: 返回404page
+            return;
         }
 
         ModelAndView mv = null;
