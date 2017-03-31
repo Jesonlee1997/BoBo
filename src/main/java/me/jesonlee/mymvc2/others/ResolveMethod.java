@@ -4,6 +4,7 @@ import me.jesonlee.mymvc2.core.RequestHandler;
 import me.jesonlee.mymvc2.exception.NoMethodFoundException;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -26,5 +27,5 @@ public interface ResolveMethod {
     RequestHandler findHandlerOfMethod(String methodName) throws NoMethodFoundException;
 
     //解析Class数组中的方法，并建立一个方法名-RequestHandler的映射
-    void resolve(Class[] classes);
+    void resolve(List<Class> classes);
 }

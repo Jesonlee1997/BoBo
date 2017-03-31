@@ -10,14 +10,10 @@ public class MappingManagerTest {
 
 
     MappingManager mappingManager = MappingManager.getMappingManager();
-    @Test
-    public void addUrlMap() throws Exception {
-
-    }
 
     @Test
-    public void testAll() {
-
+    public void testInit() {
+        mappingManager.init();
     }
 
 }

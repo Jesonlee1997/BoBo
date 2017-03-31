@@ -1,10 +1,12 @@
 package me.jesonlee.mymvc2.core;
 
 import me.jesonlee.mymvc2.http.Request;
+import me.jesonlee.mymvc2.others.ClasspathPackageScanner;
 import me.jesonlee.mymvc2.others.ResolveMethod;
 import me.jesonlee.mymvc2.others.ResolveMethodImpl;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -43,22 +45,20 @@ public class MappingManager {
             properties = new Properties();
             urlHandlerMap = new UrlHandlerMap();
             resolveMethod = new ResolveMethodImpl();
-
-
             // TODO: 将路径换为Settings里的basePackage
-            String path = "me.jesonlee.mymvc2.controller.Controller";
+            String path = "me.jesonlee.mymvc2.controller";
+            packageScanner = new ClasspathPackageScanner(path);
+
 
             // TODO:需要建立url-Handler映射，hander需要不同类的实例，需要一个扫描方法返回Class数组
             //当没有扫描到类时抛出异常
-            Class clazz = Class.forName(path);
-            Class[] classes = {clazz};
+            List<Class> classes = packageScanner.scanClasses();
             resolveMethod.resolve(classes);
 
             //加载urlMap配置文件，并将对应的键值对加载到urlHandlerMap中
             properties.load(MappingManager.class.getResourceAsStream("/urlMapMethod.properties"));
             addUrlHandlerMap(properties);
-
-        } catch (IOException | ClassNotFoundException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
         return true;

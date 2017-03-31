@@ -3,6 +3,9 @@ package me.jesonlee.mymvc2.others;
 import me.jesonlee.mymvc2.core.DispatcherServlet;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Administrator on 2017/3/26 0026.
  */
@@ -11,7 +14,11 @@ public class ResolveMethodImplTest {
     @Test
     public void resolve() throws Exception {
         long l1 = System.currentTimeMillis();
-        resolveMethod.resolve(new Class[]{TestA.class, DispatcherServlet.class});
+        List<Class> classes = new ArrayList<Class>() {{
+            add(TestA.class);
+            add(DispatcherServlet.class);
+        }};
+        resolveMethod.resolve(classes);
         System.out.println(System.currentTimeMillis() - l1);
     }
 

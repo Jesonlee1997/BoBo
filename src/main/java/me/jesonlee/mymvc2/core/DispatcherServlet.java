@@ -45,8 +45,7 @@ public class DispatcherServlet extends HttpServlet {
         ModelAndView mv = null;
         mv = requestHandler.handle(request);
 
-        // 返回viewName对应的页面
-        // TODO: 渲染页面
+        // 使用ModelAndView渲染页面
         templateManager.render(mv, req, resp);
     }
 }

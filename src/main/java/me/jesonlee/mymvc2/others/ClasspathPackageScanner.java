@@ -51,9 +51,19 @@ public class ClasspathPackageScanner implements PackageScanner {
      * @throws IOException
      */
     @Override
-    public List<String> getFullyQualifiedClassNameList() throws IOException {
+    public List<Class> scanClasses() throws IOException {
         logger.info("开始扫描包" + basePackage + "下的所有类");
-        return doScan(basePackage, new ArrayList<>());
+        List<String> classNameList = new ArrayList<>();
+        doScan(basePackage, classNameList);
+        List<Class> classes = new ArrayList<>();
+        for (String className : classNameList) {
+            try {
+                classes.add(Class.forName(className));
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+        return classes;
     }
 
     /**
@@ -171,10 +181,6 @@ public class ClasspathPackageScanner implements PackageScanner {
      */
     public static void main(String[] args) throws Exception {
         PackageScanner scan = new ClasspathPackageScanner("me.jesonlee.mymvc2.core");
-        List<String> list = scan.getFullyQualifiedClassNameList();
-        for (String s : list) {
-            System.out.println(s);
-        }
     }
 
 }

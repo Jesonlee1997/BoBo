@@ -5,6 +5,7 @@ import me.jesonlee.mymvc2.exception.NoMethodFoundException;
 
 import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,7 +27,7 @@ public class ResolveMethodImpl implements ResolveMethod {
 
 
     @Override
-    public void resolve(Class[] classes) {
+    public void resolve(List<Class> classes) {
         for (Class clazz : classes) {
             try {
                 Object o = clazz.newInstance();
