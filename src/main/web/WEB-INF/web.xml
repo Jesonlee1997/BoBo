@@ -5,7 +5,7 @@
          version="3.1">
     <servlet>
         <servlet-name>dispatcher</servlet-name>
-        <servlet-class>me.jesonlee.mymvc2.core.DispatcherServlet</servlet-class>
+        <servlet-class>me.jesonlee.bobo.core.DispatcherServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>dispatcher</servlet-name>

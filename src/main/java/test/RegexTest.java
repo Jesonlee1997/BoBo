@@ -1,6 +1,6 @@
 package test;
 
-import me.jesonlee.mymvc2.util.UrlUtil;
+import me.jesonlee.bobo.util.UrlUtil;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

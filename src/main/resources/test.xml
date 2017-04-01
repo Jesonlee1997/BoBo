@@ -4,7 +4,7 @@
         <location>/WEB-INF/pages/</location>
     </view>
     <controller>
-        <location>classpath:me.jesonlee.mymvc2.controller</location>
+        <location>classpath:me.jesonlee.bobo.controller</location>
     </controller>
     <url-patterns>
         <url-pattern>

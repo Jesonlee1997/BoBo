@@ -6,7 +6,7 @@
     </view>
     <controller>
         <!--controller类所在的包-->
-        <location>classpath:me.jesonlee.mymvc2.controller</location>
+        <location>classpath:me.jesonlee.bobo.controller</location>
     </controller>
     <url-patterns>
         <!--url-方法映射，方法名可以是controller包中任意一个类的任意方法-->
