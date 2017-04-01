@@ -30,7 +30,12 @@ public final class ProjectConfigs {
         } else {
             controllerLocation = ctllocation;
         }
-        viewLocation = (String) configLoader.getConfig("viewLocation");
+        String vlocation = (String) configLoader.getConfig("viewLocation");
+        if (vlocation.endsWith("/")) {
+            viewLocation = vlocation;
+        } else {
+            viewLocation = vlocation + "/";
+        }
         urlMethodMap = (Map<Object, Object>) configLoader.getConfig("urlMethodMap");
         if (viewLocation == null || controllerLocation == null || urlMethodMap == null) {
             throw new ConfigLoadException("配置不能为空");

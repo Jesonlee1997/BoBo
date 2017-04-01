@@ -27,7 +27,6 @@ public class MappingManager {
         return mappingManager;
     }
 
-    //TODO:使用ProjectConfig
     private ProjectConfigs config = ProjectConfigs.getInstance();
 
     //controller方法解析类
