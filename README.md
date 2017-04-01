@@ -1,4 +1,4 @@
-# mymvc2
+# BoBo
 
 JesonLee的MVC框架  
 预计分为两个阶段  
