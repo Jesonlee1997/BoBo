@@ -66,7 +66,6 @@ public class RequestHandler {
         Map<String, Object> paramValueMap = request.getParamValueMap();
         List<Object> list = new LinkedList<>();
         for (Map.Entry<String, Param> entry : nameParamMap.entrySet()) {
-            //TODO:封装这样的操作
             String name = entry.getKey();//参数名
             Param param = entry.getValue();//对应的参数
 
@@ -89,7 +88,6 @@ public class RequestHandler {
 
         return list.toArray();
     }
-
 
     private void setOrigin(Object origin) {
         this.origin = origin;

@@ -1,6 +1,5 @@
 package me.jesonlee.mymvc2.others;
 
-import me.jesonlee.mymvc2.core.PackageScanner;
 import me.jesonlee.mymvc2.exception.NoClassScannedException;
 
 import java.io.File;

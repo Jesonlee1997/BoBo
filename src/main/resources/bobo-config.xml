@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BoBo>
+    <view>
+        <location>/WEB-INF/pages/</location>
+    </view>
+    <controller>
+        <location>classpath:me.jesonlee.mymvc2.controller</location>
+    </controller>
+    <url-patterns>
+        <url-pattern>
+            <url>/jeson/(id)/(name)</url>
+            <method>jeson</method>
+        </url-pattern>
+        <url-pattern>
+            <url>/java</url>
+            <method>java</method>
+        </url-pattern>
+    </url-patterns>
+</BoBo>

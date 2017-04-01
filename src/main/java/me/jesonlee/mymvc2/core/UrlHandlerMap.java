@@ -21,7 +21,6 @@ public class UrlHandlerMap  {
     }
 
     public RequestHandler getHandler(Request request) {
-        //TODO:match 输入的url，并在Request上添加参数
         for (UrlPattern pattern : urlHandlerMap.keySet()) {
             if (pattern.match(request)) {
                 return urlHandlerMap.get(pattern);

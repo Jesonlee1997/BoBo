@@ -42,7 +42,7 @@ public class DispatcherServlet extends HttpServlet {
             return;
         }
 
-        ModelAndView mv = null;
+        ModelAndView mv;
         mv = requestHandler.handle(request);
 
         // 使用ModelAndView渲染页面

@@ -2,13 +2,13 @@ package me.jesonlee.mymvc2.core;
 
 import me.jesonlee.mymvc2.http.Request;
 import me.jesonlee.mymvc2.others.ClasspathPackageScanner;
+import me.jesonlee.mymvc2.others.PackageScanner;
 import me.jesonlee.mymvc2.others.ResolveMethod;
 import me.jesonlee.mymvc2.others.ResolveMethodImpl;
 
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * 核心之二，映射管理器
@@ -27,37 +27,32 @@ public class MappingManager {
         return mappingManager;
     }
 
-    private PackageScanner packageScanner;
+    //TODO:使用ProjectConfig
+    private ProjectConfigs config = ProjectConfigs.getInstance();
 
-
-    public ResolveMethod resolveMethod;
-
-    //代表url-方法名的键值对
-    public Properties properties;
+    //controller方法解析类
+    private ResolveMethod resolveMethod;
 
     //存放映射的键值对，url的值为小写，Request类中的url也需要是小写
-    public UrlHandlerMap urlHandlerMap ;
+    private UrlHandlerMap urlHandlerMap ;
 
     //初始化，只有调用了init方法MappingManager才是准备好的
     public boolean init() {
         try {
             //初始化属性
-            properties = new Properties();
+            Map<Object, Object> urlMethodMap;
             urlHandlerMap = new UrlHandlerMap();
             resolveMethod = new ResolveMethodImpl();
-            // TODO: 将路径换为Settings里的basePackage
-            String path = "me.jesonlee.mymvc2.controller";
-            packageScanner = new ClasspathPackageScanner(path);
+            String path = config.controllerLocation;
+            PackageScanner packageScanner = new ClasspathPackageScanner(path);
 
-
-            // TODO:需要建立url-Handler映射，hander需要不同类的实例，需要一个扫描方法返回Class数组
-            //当没有扫描到类时抛出异常
+            //扫描controller包下的类
             List<Class> classes = packageScanner.scanClasses();
             resolveMethod.resolve(classes);
 
-            //加载urlMap配置文件，并将对应的键值对加载到urlHandlerMap中
-            properties.load(MappingManager.class.getResourceAsStream("/urlMapMethod.properties"));
-            addUrlHandlerMap(properties);
+            //将urlMethodMap中的键值对转换为urlHandlerMap中
+            urlMethodMap = config.urlMethodMap;
+            addUrlHandlerMap(urlMethodMap);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -65,11 +60,11 @@ public class MappingManager {
     }
 
 
-    /*将properties中的url-方法名解析成程序可用的url-Handler*/
-    private void addUrlHandlerMap(Map<Object, Object> properties) {
+    /*url-方法名解析成程序可用的url-Handler*/
+    private void addUrlHandlerMap(Map<Object, Object> urlMethodNameMap) {
         RequestHandler requestHandler;
         String url;
-        for (Map.Entry<Object, Object> entry : properties.entrySet()) {
+        for (Map.Entry<Object, Object> entry : urlMethodNameMap.entrySet()) {
             //查找是否存在该方法名，findMethod会将methodName转化为小写之后再进行查找
             requestHandler = resolveMethod.findHandlerOfMethod((String) entry.getValue());
             url = (String) entry.getKey();
@@ -79,8 +74,6 @@ public class MappingManager {
 
     //获得请求中对应url的处理器
     RequestHandler getHandler(Request request) {
-        //TODO:match URL
-
         return urlHandlerMap.getHandler(request);
     }
 }

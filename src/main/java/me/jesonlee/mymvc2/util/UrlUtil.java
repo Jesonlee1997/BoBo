@@ -10,7 +10,6 @@ public class UrlUtil {
     public static final Pattern SETTINGPATTERN = Pattern.compile("\\((\\w+)\\)");
 
     public static String fixUrl(String requestUrl) {
-        //TODO:修正URL 为每个url加上/的后缀方便正则表达式匹配
         if (requestUrl.endsWith("/")) {
             return requestUrl;
         }

@@ -22,6 +22,8 @@ public class Param {
         for (Object o : values) {
             if (clazz == int.class || clazz == Integer.class) {
                 this.value[0] = Integer.parseInt((String) o);
+            } else if (clazz == double.class) {
+                this.value[0] = Double.parseDouble((String) o);
             } else {
                 this.value[0] = o;
             }

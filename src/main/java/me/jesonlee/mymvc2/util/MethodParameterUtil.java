@@ -7,11 +7,11 @@ import javassist.bytecode.MethodInfo;
 import me.jesonlee.mymvc2.core.Param;
 
 import java.lang.reflect.Method;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
+ * 将方法的名称和方法的类型对应起来（Map中的顺序很重要，表示参数出现的顺序，所以要用LinkedHashMap）
  * Created by Administrator on 2017/3/23 0023.
  */
 public class MethodParameterUtil {
@@ -42,19 +42,5 @@ public class MethodParameterUtil {
         return nameParamMap;
     }
 
-    public static void main(String[] args) throws NotFoundException {
-        Method[] methods = MethodParameterUtil.class.getMethods();
-        Map<String, Param> map = null;
-        for (Method method : methods) {
-            if (method.getName().equals("test"))
-                map = getParamsMap(method);
-        }
-        for (Map.Entry<String, Param> entry : map.entrySet()) {
-            System.out.println("name: " + entry.getKey()+ " param value " + entry.getValue());
-        }
-    }
-    
-    public void test(String name, Date date, int number) {
-        
-    }
+
 }
